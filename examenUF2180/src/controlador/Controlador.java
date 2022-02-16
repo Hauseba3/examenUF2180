@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import dao.CentroDAO;
+import dao.DepartamentoDAO;
 import modelo.Centro;
+import modelo.Departamento;
 import vista.DialogoAñadirCentro;
+import vista.DialogoAñadirDepartamento;
 import vista.VentanaMostrarCentros;
+import vista.VentanaMostrarDepartamentos;
 import vista.VentanaPpal;
 
 /**
@@ -23,9 +27,12 @@ public class Controlador {
 	private VentanaPpal ventanaPpal;
 	private VentanaMostrarCentros ventanaMostrarCentros;
 	private DialogoAñadirCentro dialogoAñadirCentro;
+	private VentanaMostrarDepartamentos ventanaMostrarDepartamentos;
+	private DialogoAñadirDepartamento dialogoAñadirDepartamento;
 	
 	// Objetos DAO o CRUD de la base de datos
 	private CentroDAO centroDAO;
+	private DepartamentoDAO departamentoDAO;
 
 	
 	
@@ -34,15 +41,20 @@ public class Controlador {
 		ventanaPpal = new VentanaPpal();
 		ventanaMostrarCentros = new VentanaMostrarCentros();
 		dialogoAñadirCentro = new DialogoAñadirCentro();
+		ventanaMostrarDepartamentos = new VentanaMostrarDepartamentos();
+		dialogoAñadirDepartamento = new DialogoAñadirDepartamento();
 		
 		// Dando acceso al controlador desde las vistas
 		ventanaPpal.setControlador(this);
 		ventanaMostrarCentros.setControlador(this);
 		dialogoAñadirCentro.setControlador(this);
+		ventanaMostrarDepartamentos.setControlador(this);
+		dialogoAñadirDepartamento.setControlador(this);
 
 		
 		// Creamos los objetos DAO
 		centroDAO = new CentroDAO();
+		departamentoDAO = new DepartamentoDAO();
 	}
 	
 	
@@ -72,11 +84,40 @@ public class Controlador {
 		// Invocando a centroDAO
 		int resultado = centroDAO.insertarCentro(centro);
 		if (resultado ==0) {
-			JOptionPane.showMessageDialog(dialogoAñadirCentro, "Error. no se ha podido insertar.");
+			JOptionPane.showMessageDialog(dialogoAñadirCentro, "Error no se ha podido insertar");
 		} else {
 			JOptionPane.showMessageDialog(dialogoAñadirCentro, "Insercion del centro correcta");
 			dialogoAñadirCentro.setVisible(false);
 		}
+	}
+	
+	//FUNCIONES DEPARTAMENTOS
+	public void mostrarListarDepartamentos() {
+		ArrayList<Departamento> lista = departamentoDAO.obtenerDepartamentos();
+		ventanaMostrarDepartamentos.setListaDepartamentos(lista);
+		ventanaMostrarDepartamentos.setVisible(true);
+	}
+	
+	public void insertaDepartamento(Departamento departamento) {
+		// Invocando a departamentoDAO
+		int resultado = departamentoDAO.insertarDepartamento(departamento);
+		if (resultado ==0) {
+			JOptionPane.showMessageDialog(dialogoAñadirDepartamento, "Error no se ha podido insertar");
+		} else {
+			JOptionPane.showMessageDialog(dialogoAñadirDepartamento, "Insercion del departamento correcta");
+			dialogoAñadirDepartamento.setVisible(false);
+		}
+	}
+
+
+	public void mostrarInsertarDepartamentos() {
+		// CONSULTAR LOS CENTROS
+		ArrayList<Centro> listaCentros = centroDAO.obtenerCentros();
+		//PASAR LA LISTA DE CENTROS
+		dialogoAñadirDepartamento.setCentros(listaCentros);
+		
+		dialogoAñadirDepartamento.setVisible(true);
+		
 	}
 	
 	

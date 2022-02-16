@@ -12,10 +12,19 @@ import java.sql.SQLException;
  *
  */
 public class ConexionBD {
+	
+	/*
+	 * CREACION DEL USUSARIO
+	 * create user bbdd identified by '1234';
+	 * ASIGNACION DE PERMNISOS
+	 * grant all privileges on empresa.* to bbdd;
+	 * REFRESCAR PERMISOS
+	 * flush privileges;
+	 */
 
 	private static final String database = "empresa";
-	private static final String usuario = "root";
-	private static final String contraseña = "123456";
+	private static final String usuario = "bbdd";
+	private static final String contraseña = "1234";
 	private static final String url="jdbc:mysql://localhost/"+database;
 	
 	private Connection conexion=null;
